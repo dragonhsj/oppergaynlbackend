@@ -66,9 +66,13 @@ app.get('/api/lastfm/recent-tracks', async (req, res) => {
     const data = await response.json();
 
     if (data && typeof data === 'object' && 'error' in data) {
+      const formattedError =
+        data.message ||
+        (typeof data.error === 'number' ? `Last.fm error code: ${data.error}` : data.error);
+
       return res
         .status(502)
-        .json({ error: data.error || data.message || 'Last.fm API returned an error.' });
+        .json({ error: formattedError || 'Last.fm API returned an error.' });
     }
 
     return res.json(data);
