@@ -1,4 +1,4 @@
-name = "oppergaynl-lastfm-proxy"
+name = "oppergaynlbackend"
 main = "src/index.ts"
 compatibility_date = "2025-05-01"
 
