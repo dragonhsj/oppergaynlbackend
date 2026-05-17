@@ -1,0 +1,14 @@
+name = "oppergaynl-lastfm-proxy"
+main = "src/index.ts"
+compatibility_date = "2025-05-01"
+
+# LASTFM_USER kan publiek zijn (gewoon je Last.fm gebruikersnaam),
+# vandaar dat het hier als var staat. Pas aan naar jouw username.
+[vars]
+LASTFM_USER = "your-lastfm-user"
+# Optioneel: beperk CORS tot jouw site. Laat leeg/weg voor "*".
+# ALLOWED_ORIGIN = "https://oppergay.nl"
+
+# LASTFM_API_KEY wordt NOOIT in dit bestand gezet.
+# Zet hem als secret zodat hij niet in source control komt:
+#   npx wrangler secret put LASTFM_API_KEY
