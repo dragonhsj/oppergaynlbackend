@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Last.fm Recent Tracks</title>
+  </head>
+  <body>
+    <h1>Last.fm Recent Tracks</h1>
+    <form id="lastfm-form">
+      <label for="user">Last.fm username:</label>
+      <input id="user" name="user" required />
+      <button type="submit">Load tracks</button>
+    </form>
+    <p id="status"></p>
+    <ul id="tracks"></ul>
+
+    <script>
+      const form = document.getElementById('lastfm-form');
+      const status = document.getElementById('status');
+      const tracks = document.getElementById('tracks');
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const user = new FormData(form).get('user');
+
+        status.textContent = 'Loading...';
+        tracks.innerHTML = '';
+
+        try {
+          const response = await fetch(
+            `/api/lastfm/recent-tracks?user=${encodeURIComponent(user)}&limit=5`
+          );
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.error || 'Request failed');
+          }
+
+          const items = data.recenttracks?.track || [];
+          status.textContent = `Found ${items.length} tracks`;
+
+          for (const track of items) {
+            const li = document.createElement('li');
+            li.textContent = `${track.artist['#text']} - ${track.name}`;
+            tracks.appendChild(li);
+          }
+        } catch (error) {
+          status.textContent = error.message;
+        }
+      });
+    </script>
+  </body>
+</html>
