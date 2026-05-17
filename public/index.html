@@ -33,12 +33,8 @@
           );
           const data = await response.json();
 
-          if (!response.ok) {
-            throw new Error(data.error || 'Request failed');
-          }
-
-          if (data.error) {
-            throw new Error(data.message || data.error);
+          if (!response.ok || data.error) {
+            throw new Error(data.message || data.error || `Request failed (${response.status})`);
           }
 
           const items = data.recenttracks?.track || [];

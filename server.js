@@ -58,7 +58,9 @@ app.get('/api/lastfm/recent-tracks', async (req, res) => {
     const response = await fetch(`https://ws.audioscrobbler.com/2.0/?${params.toString()}`);
 
     if (!response.ok) {
-      return res.status(502).json({ error: 'Last.fm request failed.' });
+      return res
+        .status(502)
+        .json({ error: `Last.fm request failed with status ${response.status}.` });
     }
 
     const data = await response.json();
