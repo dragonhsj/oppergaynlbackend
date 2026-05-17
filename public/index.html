@@ -37,6 +37,10 @@
             throw new Error(data.error || 'Request failed');
           }
 
+          if (data.error) {
+            throw new Error(data.message || data.error);
+          }
+
           const items = data.recenttracks?.track || [];
           status.textContent = `Found ${items.length} tracks`;
 

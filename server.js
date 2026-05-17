@@ -62,8 +62,14 @@ app.get('/api/lastfm/recent-tracks', async (req, res) => {
     }
 
     const data = await response.json();
+
+    if (data && typeof data === 'object' && 'error' in data) {
+      return res.status(502).json({ error: data.message || 'Last.fm API returned an error.' });
+    }
+
     return res.json(data);
-  } catch (_error) {
+  } catch (error) {
+    console.error('Last.fm proxy error:', error);
     return res.status(502).json({ error: 'Failed to reach Last.fm.' });
   }
 });
